@@ -14,12 +14,12 @@ with open("weather_data.csv", "r") as csvfile:
         temperature.append(float(row[1]))
         humidity.append(int(row[2]))
 
-#to sort the temperature and calculate the max and min
-sorted_temperature = sorted(temperature)
-max_temperature = sorted_temperature[-1]
-min_temperature = sorted_temperature[0]
-print(max_temperature)
-print(min_temperature)
+# #to sort the temperature and calculate the max and min
+# sorted_temperature = sorted(temperature)
+# max_temperature = sorted_temperature[-1]
+# min_temperature = sorted_temperature[0]
+# print(max_temperature)
+# print(min_temperature)
 
 
 
