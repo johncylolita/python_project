@@ -1,7 +1,7 @@
 import csv
 
+
 def file_reader(filename):
-    
     with open(filename, "r") as csvfile:
         reader = csv.reader(csvfile)
         next(reader)
@@ -16,11 +16,31 @@ def file_reader(filename):
     return temperature, humidity
 
 
+def maximum(lst):
+    max = lst[0]
+    for i in lst:
+        if i > max:
+            max = i
+    return max
+
+def minimum(lst):
+    min = lst[0]
+    for i in lst:
+        if i < min:
+            min = i
+
+def sum_lst(lst):
+    sum = 0
+    for i in lst:
+        sum += i
+    return sum
+
 def average(lst):
-    avg = sum(lst) / len(lst)
+    avg = sum_lst(lst) / len(lst)
     return avg
 
-if __name__ == '__main__':
+
+if __name__ =="__main__":
     temperature, humidity = file_reader("weather_data.csv")
     print(f"The Maximum temperature is:",max(temperature))
     print(f"The Minimum temperature is:",min(temperature))
