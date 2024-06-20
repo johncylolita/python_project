@@ -20,12 +20,9 @@ def average(lst):
     avg = sum(lst) / len(lst)
     return avg
 
-def main():
+if __name__ == '__main__':
+    temperature, humidity = file_reader("weather_data.csv")
     print(f"The Maximum temperature is:",max(temperature))
     print(f"The Minimum temperature is:",min(temperature))
     print(f"The Average temperature is:",average(temperature))
     print(f"The Average humidity is:",average(humidity))
-
-if __name__ == '__main__':
-    temperature, humidity = file_reader("weather_data.csv")
-    main()
