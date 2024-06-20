@@ -28,6 +28,7 @@ def minimum(lst):
     for i in lst:
         if i < min:
             min = i
+    return min
 
 def sum_lst(lst):
     sum = 0
