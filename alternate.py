@@ -1,4 +1,3 @@
-#importing the necessary modules
 import pandas as pd
 
 #reading the csv file
