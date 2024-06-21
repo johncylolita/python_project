@@ -24,9 +24,18 @@ class local_weather():
         return temperature, humidity, location
 
     
+    def group_by(self):
+        from collections import defaultdict
+        new_data = defaultdict(list)
+        for temp, humid, loc in zip(self.temperature, self.humidity, self.location):
+            new_data[loc].append((temp,humid))
+        print(new_data)
+
+
     def max_temp(self):
         return max(self.temperature)
-    
+
+
     def min_temp(self):
         return min(self.temperature)
     
@@ -40,6 +49,9 @@ class local_weather():
 
 if __name__ == '__main__':
     weather_analysis = local_weather('weather_data_with_location.csv')
+    weather_analysis.group_by()
+
+
     print(weather_analysis.max_temp())
     print(weather_analysis.min_temp())
     print(weather_analysis.avg_temp())
