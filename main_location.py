@@ -6,6 +6,7 @@ class local_weather():
     def __init__(self, filename):
         self.filename = filename
         self.temperature, self.humidity, self.location = self.file_reader()
+        self.new_data = self.group_by()
 
     def file_reader(self):
         with open(self.filename, "r") as csvfile:
@@ -29,11 +30,16 @@ class local_weather():
         new_data = defaultdict(list)
         for temp, humid, loc in zip(self.temperature, self.humidity, self.location):
             new_data[loc].append((temp,humid))
-        print(new_data)
+        return new_data
 
 
-    def max_temp(self):
-        return max(self.temperature)
+    def maximum(self):
+
+        for loc, data in self.new_data.items():
+            temp = [i for i,j in data]
+            print(f"Location:{loc}")
+            print(f"Maximum temperature: {max(temp)}")
+
 
 
     def min_temp(self):
@@ -50,9 +56,4 @@ class local_weather():
 if __name__ == '__main__':
     weather_analysis = local_weather('weather_data_with_location.csv')
     weather_analysis.group_by()
-
-
-    print(weather_analysis.max_temp())
-    print(weather_analysis.min_temp())
-    print(weather_analysis.avg_temp())
-    print(weather_analysis.avg_humid())
+    weather_analysis.maximum()
