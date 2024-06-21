@@ -43,13 +43,25 @@ class local_weather():
 
 
     def min_temp(self):
-        return min(self.temperature)
+        for loc, data in self.new_data.items():
+            temp = [i for i,j in data]
+            print(f"Location:{loc}")
+            print(f"Minimum temperature: {min(temp)}")
+    
+    def average(self,lst):
+        return sum(lst) / len(lst)
     
     def avg_temp(self):
-        return sum(self.temperature) / len(self.temperature)
+        for loc, data in self.new_data.items():
+            temp = [j for i,j in data]
+            print(f"Location:{loc}")
+            print(f"Average temperature: {self.average(temp)}")
 
     def avg_humid(self):
-        return sum(self.humidity) / len(self.humidity)
+        for loc, data in self.new_data.items():
+            humid = [j for i,j in data]
+            print(f"Location:{loc}")
+            print(f"Avearge humidity: {self.average(humid)}")
     
 
 
@@ -57,3 +69,6 @@ if __name__ == '__main__':
     weather_analysis = local_weather('weather_data_with_location.csv')
     weather_analysis.group_by()
     weather_analysis.maximum()
+    weather_analysis.min_temp()
+    weather_analysis.avg_temp()
+    weather_analysis.avg_humid()
