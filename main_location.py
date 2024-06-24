@@ -10,12 +10,12 @@ class Local_Weather:
     new_data: dict = field(init=False)
 
     def __post_init__(self):
-        self.temperature, self.humidity, self.location = self.file_reader()
-        self.new_data = self.group_by()
+        self.temperature, self.humidity, self.location = self.file_reader(self.filename)
+        self.new_data = self.group_by(self.temperature, self.humidity, self.location)
 
-
-    def file_reader(self):
-        with open(self.filename, "r") as csvfile:
+    @classmethod
+    def file_reader(cls, filename):
+        with open(filename, "r") as csvfile:
             reader = csv.reader(csvfile)
             next(reader)
 
@@ -30,10 +30,11 @@ class Local_Weather:
 
         return temperature, humidity, location
 
-    def group_by(self):
+    @classmethod
+    def group_by(cls, temperature, humidity,location):
         from collections import defaultdict
         new_data = defaultdict(list)
-        for temp, humid, loc in zip(self.temperature, self.humidity, self.location):
+        for temp, humid, loc in zip(temperature, humidity, location):
             new_data[loc].append((temp,humid))
         return new_data
     
@@ -41,19 +42,19 @@ class Local_Weather:
     def average(lst):
         return sum(lst) / len(lst)
 
-    def metrics(self):
-        for loc, data in self.new_data.items():
+    @classmethod
+    def metrics(cls,new_data):
+        for loc, data in new_data.items():
             temp = [i for i,j in data]
             humid = [j for i,j in data]
             print(f"Location:{loc}")
             print(f"Maximum temperature: {max(temp)}")
             print(f"Minimum temperature: {min(temp)}")
-            print(f"Average temperature: {self.average(temp)}")
-            print(f"Avearge humidity: {self.average(humid)}")
+            print(f"Average temperature: {cls.average(temp)}")
+            print(f"Avearge humidity: {cls.average(humid)}")
             
 
 
 if __name__ == '__main__':
     weather_analysis = Local_Weather('weather_data_with_location.csv')
-    weather_analysis.group_by()
-    weather_analysis.metrics()
+    Local_Weather.metrics(weather_analysis.new_data)
