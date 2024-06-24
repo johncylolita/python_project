@@ -1,12 +1,18 @@
 import csv
+from dataclasses import dataclass, field
 
+@dataclass
+class Local_Weather:
+    filename: str
+    temperature: list = field(init=False)
+    humidity: list = field(init=False)
+    location: list = field(init=False)
+    new_data: dict = field(init=False)
 
-class local_weather():
-
-    def __init__(self, filename):
-        self.filename = filename
+    def __post_init__(self):
         self.temperature, self.humidity, self.location = self.file_reader()
         self.new_data = self.group_by()
+
 
     def file_reader(self):
         with open(self.filename, "r") as csvfile:
@@ -24,7 +30,6 @@ class local_weather():
 
         return temperature, humidity, location
 
-    
     def group_by(self):
         from collections import defaultdict
         new_data = defaultdict(list)
@@ -32,7 +37,8 @@ class local_weather():
             new_data[loc].append((temp,humid))
         return new_data
     
-    def average(self,lst):
+    @staticmethod
+    def average(lst):
         return sum(lst) / len(lst)
 
     def metrics(self):
@@ -48,6 +54,6 @@ class local_weather():
 
 
 if __name__ == '__main__':
-    weather_analysis = local_weather('weather_data_with_location.csv')
+    weather_analysis = Local_Weather('weather_data_with_location.csv')
     weather_analysis.group_by()
     weather_analysis.metrics()
