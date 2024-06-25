@@ -11,7 +11,7 @@ class LocalWeather:
     avg_humidity: float
 
     @classmethod
-    def weather_by_location(cls, location, temp, humid):
+    def weather_by_location(cls, location: str, temp: list, humid: list) -> 'LocalWeather':
         max_temp = max(temp)
         min_temp = min(temp)
         avg_temp = average(temp)
@@ -37,7 +37,7 @@ def average(lst):
     return sum(lst) / len(lst)
 
 
-def file_reader(filename):
+def file_reader(filename: str) -> dict:
     with open(filename, "r") as csvfile:
         reader = csv.reader(csvfile)
         next(reader)
@@ -46,18 +46,16 @@ def file_reader(filename):
 
         for row in reader:
             location = row[3]
-            temp = float(row[1])
-            humid = float(row[2])
 
             if location not in weather_data:
                 weather_data[location] = {'temp': [], 'humid': []}
 
-            weather_data[location]['temp'].append(temp)
-            weather_data[location]['humid'].append(humid)
+            weather_data[location]['temp'].append(float(row[1]))
+            weather_data[location]['humid'].append(float(row[2]))
 
     return weather_data
 
-def analyze_weather_data(weather_data):
+def analyze_weather_data(weather_data: dict) -> list[LocalWeather]:
     weather_metrics = []
 
     for location, data in weather_data.items():
@@ -70,13 +68,9 @@ def analyze_weather_data(weather_data):
     return weather_metrics
 
 
-def print_weather_metrics(weather_metrics):
-    for weather in weather_metrics:
-        weather.print_metrics()
-        print()
-
-
 if __name__ == "__main__":
     weather_data = file_reader("weather_data_with_location.csv")
     weather_metrics = analyze_weather_data(weather_data)
-    print_weather_metrics(weather_metrics)
+    for weather in weather_metrics:
+        weather.print_metrics()
+        print()
