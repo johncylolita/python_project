@@ -3,29 +3,34 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Local_Weather:
+class LocalWeather:
     location: str
-    max_temp: int
-    min_temp: int
-    avg_temp: float
-    avg_humid: float
+    max_temperature: int
+    min_temperature: int
+    avg_temperature: float
+    avg_humidity: float
 
     @classmethod
-    def weather_by_location(cls, location, max_temp, min_temp, avg_temp, avg_humid):
+    def weather_by_location(cls, location, temp, humid):
+        max_temp = max(temp)
+        min_temp = min(temp)
+        avg_temp = average(temp)
+        avg_humid = average(humid)
+
         return cls(
             location = location,
-            max_temp = max_temp,
-            min_temp = min_temp,
-            avg_temp = avg_temp,
-            avg_humid = avg_humid
+            max_temperature = max_temp,
+            min_temperature = min_temp,
+            avg_temperature = avg_temp,
+            avg_humidity = avg_humid
         )
     
     def print_metrics(self):
         print(f"Location:{self.location}")
-        print(f"Maximum temperature: {self.max_temp}")
-        print(f"Minimum temperature: {self.min_temp}")
-        print(f"Average temperature: {self.avg_temp}")
-        print(f"Avearge humidity: {self.avg_humid}")
+        print(f"Maximum temperature: {self.max_temperature}")
+        print(f"Minimum temperature: {self.min_temperature}")
+        print(f"Average temperature: {self.avg_temperature}")
+        print(f"Avearge humidity: {self.avg_humidity}")
 
 
 def average(lst):
@@ -56,19 +61,10 @@ def analyze_weather_data(weather_data):
     weather_metrics = []
 
     for location, data in weather_data.items():
-        max_temp = max(data['temp'])
-        min_temp = min(data['humid'])
-        avg_temp = average(data['temp'])
-        avg_humid = average(data['humid'])
+        temp = data['temp']
+        humid = data['humid']
 
-        weather = Local_Weather.weather_by_location(
-            location,
-            max_temp,
-            min_temp,
-            avg_temp,
-            avg_humid
-        )
-
+        weather = LocalWeather.weather_by_location(location, temp,humid)
         weather_metrics.append(weather)
 
     return weather_metrics
@@ -83,24 +79,4 @@ def print_weather_metrics(weather_metrics):
 if __name__ == "__main__":
     weather_data = file_reader("weather_data_with_location.csv")
     weather_metrics = analyze_weather_data(weather_data)
-    # print(weather_metrics)
     print_weather_metrics(weather_metrics)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
