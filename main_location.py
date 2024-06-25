@@ -33,8 +33,8 @@ class LocalWeather:
         print(f"Avearge humidity: {self.avg_humidity}")
 
 
-def average(lst):
-    return sum(lst) / len(lst)
+def average(lst: list) -> float:
+    return round((sum(lst) / len(lst)),2)
 
 
 def file_reader(filename: str) -> dict:
